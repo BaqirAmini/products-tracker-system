@@ -1,36 +1,273 @@
-import React from 'react';
-import TopNav from './components/TopNav';
-import MainNav from './components/MainNav';
-import HumbergurMenu from './components/HumbergurMenu';
-import Slider from './components/Slider';
-import Banner from './components/Banner';
-import NewArrivals from './components/NewArrivals';
-import DealOfTheheWeek from './components/DealOfTheWeek';
-import BestSeller from './components/BestSeller';
-import Benefit from './components/Benefit';
-import Blogs from './components/Blogs';
-import NewsLetter from './components/NewsLetter';
-import Footer from './components/Footer';
-import axios from "axios";
+import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import configureStore from './config/configureStore';
+import { Provider } from 'react-redux';
+import Routes from './routes';
+import ScrollToTop from './utils/ScrollToTop';
+import './assets/base.scss';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
-const App = () => {
-  return (
-    <div className="main-tag">
-      <TopNav />
-      <MainNav />
-      <HumbergurMenu />
-      <Slider />
-      <Banner />
-      <NewArrivals />
-      <DealOfTheheWeek />
-      <BestSeller />
-      <Benefit />
-      <Blogs />
-      <NewsLetter />
-      <Footer />
-    </div>
-  );
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  fab,
+  faFacebook,
+  faTwitter,
+  faVuejs,
+  faReact,
+  faHtml5,
+  faGoogle,
+  faInstagram,
+  faPinterest,
+  faYoutube,
+  faDiscord,
+  faSlack,
+  faDribbble,
+  faGithub
+} from '@fortawesome/free-brands-svg-icons';
+import {
+  far,
+  faSquare,
+  faLifeRing,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+  faThumbsUp,
+  faComments,
+  faFolderOpen,
+  faTrashAlt,
+  faFileImage,
+  faFileArchive,
+  faCommentDots,
+  faFolder,
+  faKeyboard,
+  faCalendarAlt,
+  faEnvelope,
+  faAddressCard,
+  faMap,
+  faObjectGroup,
+  faImages,
+  faUser,
+  faLightbulb,
+  faGem,
+  faClock,
+  faUserCircle,
+  faQuestionCircle,
+  faBuilding,
+  faBell,
+  faFileExcel,
+  faFileAudio,
+  faFileVideo,
+  faFileWord,
+  faFilePdf,
+  faFileCode,
+  faFileAlt,
+  faEye,
+  faChartBar
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  fas,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faSmile,
+  faHeart,
+  faBatteryEmpty,
+  faBatteryFull,
+  faChevronRight,
+  faSitemap,
+  faPrint,
+  faMapMarkedAlt,
+  faTachometerAlt,
+  faAlignCenter,
+  faExternalLinkAlt,
+  faShareSquare,
+  faInfoCircle,
+  faSync,
+  faQuoteRight,
+  faStarHalfAlt,
+  faShapes,
+  faCarBattery,
+  faTable,
+  faCubes,
+  faPager,
+  faCameraRetro,
+  faBomb,
+  faNetworkWired,
+  faBusAlt,
+  faBirthdayCake,
+  faEyeDropper,
+  faUnlockAlt,
+  faDownload,
+  faAward,
+  faPlayCircle,
+  faReply,
+  faUpload,
+  faBars,
+  faEllipsisV,
+  faSave,
+  faSlidersH,
+  faCaretRight,
+  faChevronUp,
+  faPlus,
+  faLemon,
+  faChevronLeft,
+  faTimes,
+  faChevronDown,
+  faFilm,
+  faSearch,
+  faEllipsisH,
+  faCog,
+  faArrowsAltH,
+  faPlusCircle,
+  faAngleRight,
+  faAngleUp,
+  faAngleLeft,
+  faAngleDown,
+  faArrowUp,
+  faArrowDown,
+  faArrowRight,
+  faArrowLeft,
+  faStar,
+  faSignOutAlt,
+  faLink
+} from '@fortawesome/free-solid-svg-icons';
+library.add(
+  far,
+  faSquare,
+  faLifeRing,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+  faThumbsUp,
+  faComments,
+  faFolderOpen,
+  faTrashAlt,
+  faFileImage,
+  faFileArchive,
+  faCommentDots,
+  faFolder,
+  faKeyboard,
+  faCalendarAlt,
+  faEnvelope,
+  faAddressCard,
+  faMap,
+  faObjectGroup,
+  faImages,
+  faUser,
+  faLightbulb,
+  faGem,
+  faClock,
+  faUserCircle,
+  faQuestionCircle,
+  faBuilding,
+  faBell,
+  faFileExcel,
+  faFileAudio,
+  faFileVideo,
+  faFileWord,
+  faFilePdf,
+  faFileCode,
+  faFileAlt,
+  faEye,
+  faChartBar
+);
+library.add(
+  fab,
+  faFacebook,
+  faTwitter,
+  faVuejs,
+  faReact,
+  faHtml5,
+  faGoogle,
+  faInstagram,
+  faPinterest,
+  faYoutube,
+  faDiscord,
+  faSlack,
+  faDribbble,
+  faGithub
+);
+library.add(
+  fas,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faSmile,
+  faHeart,
+  faBatteryEmpty,
+  faBatteryFull,
+  faChevronRight,
+  faSitemap,
+  faPrint,
+  faMapMarkedAlt,
+  faTachometerAlt,
+  faAlignCenter,
+  faExternalLinkAlt,
+  faShareSquare,
+  faInfoCircle,
+  faSync,
+  faQuoteRight,
+  faStarHalfAlt,
+  faShapes,
+  faCarBattery,
+  faTable,
+  faCubes,
+  faPager,
+  faCameraRetro,
+  faBomb,
+  faNetworkWired,
+  faBusAlt,
+  faBirthdayCake,
+  faEyeDropper,
+  faUnlockAlt,
+  faDownload,
+  faAward,
+  faPlayCircle,
+  faReply,
+  faUpload,
+  faBars,
+  faEllipsisV,
+  faSave,
+  faSlidersH,
+  faCaretRight,
+  faChevronUp,
+  faPlus,
+  faLemon,
+  faChevronLeft,
+  faTimes,
+  faChevronDown,
+  faFilm,
+  faSearch,
+  faEllipsisH,
+  faCog,
+  faArrowsAltH,
+  faPlusCircle,
+  faAngleRight,
+  faAngleUp,
+  faAngleLeft,
+  faAngleDown,
+  faArrowUp,
+  faArrowDown,
+  faArrowRight,
+  faArrowLeft,
+  faStar,
+  faSignOutAlt,
+  faLink
+);
+
+const store = configureStore();
+
+class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <BrowserRouter basename="/carolina-react-admin-dashboard-material-ui-free/">
+          <CssBaseline />
+          <ScrollToTop>
+            <Routes />
+          </ScrollToTop>
+        </BrowserRouter>
+      </Provider>
+    );
+  }
 }
-
 
 export default App;
